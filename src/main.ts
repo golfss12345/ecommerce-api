@@ -77,7 +77,7 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   console.log(`🚀 Server is running on: ${await app.getUrl()}/${apiPrefix}`);
   console.log(`📄 Document: ${await app.getUrl()}/docs`);
 }
