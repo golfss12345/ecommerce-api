@@ -1,14 +1,31 @@
 services:
-  api: # ตัวอย่างชื่อ service ของแอป NestJS
-    build: .
+  ngrok:
+    image: ngrok/ngrok:3
+    restart: always
     environment:
-      - DATABASE_URL=postgres://postgres:Qwerty1123!@db:5432/ecommerce_db
+      - NGROK_AUTHTOKEN=1sNlS4aZmHQMCWFHPHkUT1nauFV_omQ6tsAiJNzW9c5V7W59
+    command:
+      - 'http'
+      - 'api:3000'
+      - '--log=stdout' # บังคับให้พ่น Log ออกมาที่หน้าจอ Docker
     depends_on:
-      - db
+      - api
+  api:
+    build:
+      context: .
+      target: builder # ใช้ stage ที่มี dev dependencies ครบ
+    command: npm run start:dev # สั่งให้ NestJS build และ watch โค้ดใหม่เอง
     ports:
       - '3000:3000'
-
-  db: # ชื่อนี้ต้องตรงกับที่ใส่ใน DATABASE_URL
+    volumes:
+      - .:/app
+      - /app/node_modules # สำคัญ: ห้ามลบบรรทัดนี้
+    environment:
+      - DATABASE_URL=postgres://postgres:Qwerty1123!@db:5432/ecommerce_db
+      - NODE_ENV=development
+    depends_on:
+      - db
+  db:
     image: postgres:latest
     container_name: eco-postgres-db
     environment:

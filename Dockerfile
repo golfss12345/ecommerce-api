@@ -1,5 +1,5 @@
 # Use a multi-stage build: build with dev deps, run with a minimal production image
-FROM node:20-bullseye-slim AS builder
+FROM node:latest AS builder
 WORKDIR /app
 
 # Install build deps deterministically
@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build
 
 # Production image: smaller attack surface, no dev deps, non-root user
-FROM node:20-bullseye-slim AS runner
+FROM node:latest AS runner
 
 WORKDIR /app
 ENV NODE_ENV=development

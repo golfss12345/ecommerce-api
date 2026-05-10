@@ -128,9 +128,17 @@ export class UserService {
       const newPassword = await this.createPassword(password, confirm_password);
       createUserDto.password = newPassword;
       const userExist = await this.userRepository.createUser(createUserDto);
-      return plainToInstance(UserResponseDto, userExist, {
-        excludeExtraneousValues: true,
-      });
+      return {
+        id: userExist.id,
+        firstname: userExist.firstname,
+        lastname: userExist.lastname,
+        email: userExist.email,
+        username: userExist.username,
+        is_admin: userExist.is_admin,
+        is_active: userExist.is_active,
+        created_at: userExist.created_at,
+        updated_at: userExist.updated_at,
+      };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
@@ -149,10 +157,7 @@ export class UserService {
       if (password && confirm_password)
         await this.createPassword(password, confirm_password);
 
-      const userExist = this.userRepository.updateUser(id, updateUserDto);
-      return plainToInstance(UserResponseDto, userExist, {
-        excludeExtraneousValues: true,
-      });
+      return await this.userRepository.updateUser(id, updateUserDto);
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;

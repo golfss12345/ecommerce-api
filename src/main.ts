@@ -69,6 +69,9 @@ async function bootstrap() {
     apiReference({
       content: document,
       theme: 'elysiajs',
+      favicon: 'https://www.freeiconspng.com/uploads/document-icon-19.png',
+      pageTitle: 'Eccomerce API',
+      title: 'Eccomerce API',
       layout: 'modern',
       hiddenClients: ['php', 'python', 'ruby'],
       authentication: {
@@ -78,8 +81,8 @@ async function bootstrap() {
   );
 
   await app.listen(port, '0.0.0.0');
-  console.log(`🚀 Server is running on: ${await app.getUrl()}/${apiPrefix}`);
-  console.log(`📄 Document: ${await app.getUrl()}/docs`);
+  console.log(`🚀 API is listening on all interfaces at port 3000`);
+  // console.log(`📄 Document: ${await app.getUrl()}/docs`);
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

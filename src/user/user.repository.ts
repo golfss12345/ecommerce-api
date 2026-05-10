@@ -124,7 +124,9 @@ export class UserRepository extends Repository<User> {
     updateUserDto: UpdateUserDto,
   ): Promise<User | null> {
     await this.update(id, updateUserDto);
-    return await this.findOneUser({ id });
+    const searchUserDto = new SearchUserDto();
+    searchUserDto.id = id;
+    return await this.findOneUser(searchUserDto);
   }
 
   async updateActiveUser(id: string): Promise<string> {
