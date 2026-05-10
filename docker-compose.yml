@@ -1,0 +1,19 @@
+services:
+  api: # ตัวอย่างชื่อ service ของแอป NestJS
+    build: .
+    environment:
+      - DATABASE_URL=postgres://postgres:Qwerty1123!@db:5432/ecommerce_db
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+
+  db: # ชื่อนี้ต้องตรงกับที่ใส่ใน DATABASE_URL
+    image: postgres:latest
+    container_name: eco-postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Qwerty1123!
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - '5432:5432'
